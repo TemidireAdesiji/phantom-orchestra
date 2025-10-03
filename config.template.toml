@@ -1,0 +1,81 @@
+# PhantomOrchestra Configuration Template
+# Copy to config.toml and customize.
+# Environment variables override all settings.
+
+[voice]
+# LLM model to use (supports any LiteLLM-compatible model)
+# Examples: claude-sonnet-4-6, gpt-4o, gemini/gemini-2.0-flash
+model = "claude-sonnet-4-6"
+
+# API key (prefer PHANTOM_API_KEY env var)
+# api_key = "your-api-key-here"
+
+# Optional: custom API base URL
+# base_url = "https://your-proxy.example.com/v1"
+
+# Retry settings
+num_retries = 5
+retry_min_wait = 8
+retry_max_wait = 64
+
+# Token limits
+# max_input_tokens = 100000
+# max_output_tokens = 4096
+
+# Prompt caching (reduces cost for repeated context)
+use_prompt_caching = true
+
+# Temperature (0.0 = deterministic, 1.0 = creative)
+temperature = 0.0
+
+# [voice.fast]
+# Define additional named LLM configs
+# model = "claude-haiku-4-5-20251001"
+# api_key = "..."
+
+[performer]
+# Enable/disable capabilities
+enable_browsing = true
+enable_file_editor = true
+enable_terminal = true
+enable_jupyter = false
+enable_finish_signal = true
+enable_stuck_detection = true
+
+# Maximum characters per observation
+max_chars_per_observation = 30000
+
+# System prompt template (default or custom path)
+system_prompt_template = "default"
+
+[stage]
+# Execution environment: "local" or "docker"
+stage_type = "local"
+
+# Docker image for container stage
+container_image = "ghcr.io/phantom-orchestra/runtime:latest"
+
+# Timeout for individual commands (seconds)
+sandbox_timeout = 120
+
+# Workspace directory (default: temp dir)
+# workspace_dir = "/workspace"
+
+# Memory limit for Docker containers (MB)
+max_memory_mb = 4096
+
+# Additional environment variables for the stage
+[stage.env_vars]
+# MY_VAR = "value"
+
+[orchestra]
+# Default performer to use
+default_performer = "default"
+
+# Execution limits
+max_iterations = 100
+# max_budget_per_task = 1.0  # USD limit per task
+
+# File storage type: "local" or "memory"
+file_store_type = "local"
+file_store_path = "/tmp/phantom/store"
