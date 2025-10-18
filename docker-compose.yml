@@ -1,0 +1,26 @@
+services:
+  phantom:
+    build:
+      context: .
+      dockerfile: containers/app/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PHANTOM_MODEL=${PHANTOM_MODEL:-claude-sonnet-4-6}
+      - PHANTOM_API_KEY=${PHANTOM_API_KEY}
+      - PHANTOM_STAGE_TYPE=${PHANTOM_STAGE_TYPE:-local}
+      - PHANTOM_LOG_LEVEL=${PHANTOM_LOG_LEVEL:-INFO}
+    volumes:
+      - phantom_workspace:/workspace
+      - ~/.phantom:/home/phantom/.phantom
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import httpx; httpx.get('http://localhost:3000/api/v1/health/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  phantom_workspace:
